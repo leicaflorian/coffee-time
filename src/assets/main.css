@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+#app {
+    font-family: 'Dosis', sans-serif;
+    @apply min-h-screen ;
+}
+
+
+@keyframes bg-animation {
+    0%, 50%, 100% {
+        background-color: theme('colors.secondary');
+    }
+    25%, 75% {
+        background-color: theme('colors.tertiary');
+    }
+    
+}
