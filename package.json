@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build-only && gh-pages -d dist"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
