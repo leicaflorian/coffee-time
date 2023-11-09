@@ -85,7 +85,8 @@ watch(() => timeUp_image.value, () => {
         </h1>
       </div>
 
-      <RandomQuotes></RandomQuotes>
+      <RandomQuotes v-if="!timeUp"></RandomQuotes>
+      <h1 class="text-6xl font-semibold mb-6" v-else>Tempo scaduto!</h1>
 
     </div>
   </main>
