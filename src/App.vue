@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TimeDialog from '@/components/TimeDialog.vue'
 import { ref, watch } from 'vue'
+import RandomQuotes from '@/components/RandomQuotes.vue'
 
 const timeUp = ref(false)
 const imgOpacity = ref(1)
@@ -57,30 +58,35 @@ watch(() => timeUp_image.value, () => {
 </script>
 
 <template>
-  <main class="min-h-screen bg-primary flex items-center justify-center"
+  <main class="min-h-screen bg-primary flex items-center justify-center flex-col lg:flex-row p-6"
         :class="{flash: timeUp}"
         :style="'background-color:' + timeUpColor ?? ''">
 
-    <img src="/coffee_anim.gif" alt="coffee animation" class="max-h-[80vh] object-contain w-1/2"
+    <img src="/coffee_anim.gif" alt="coffee animation" class="max-h-[50vh] lg:max-h-[80vh] object-contain lg:w-1/2"
          :style="'opacity: ' + imgOpacity " v-if="!timeUp">
 
-    <img src="/caveman_anim.gif" alt="working animation" class="max-h-[80vh] object-contain w-1/2"
+    <img src="/caveman_anim.gif" alt="working animation" class="max-h-[50vh] lg:max-h-[80vh] object-contain lg:w-1/2"
          style="mix-blend-mode: multiply"
          v-else ref="timeUp_image" id="timeUp_image">
 
-    <div class="text-white  w-1/2">
-      <h1 class="text-6xl font-semibold mb-6" v-if="!timeUp">Ah, che bellu ccafè</h1>
-      <h1 class="text-6xl font-semibold mb-6" v-else>Tempo scaduto!</h1>
+    <div class="text-white  lg:w-1/2 max-lg:mt-12 text-center lg:text-left">
+      <!--      <h1 class="text-6xl font-semibold mb-6" v-if="!timeUp">Ah, che bellu ccafè</h1>-->
+      <!--      <h1 class="text-6xl font-semibold mb-6" v-else>Tempo scaduto!</h1>-->
 
-      <h2 class="text-4xl" v-if="!timeUp">
+      <div class="mb-12">
+        <h1 class="text-5xl font-semibold " v-if="!timeUp">
         Torniamo tra
         <TimeDialog @time-up="onTimeUp" @time-update="onTimeUpdate">xx:xx</TimeDialog>
         min
-      </h2>
+        </h1>
 
-      <h2 class="text-4xl" v-else>
+        <h1 class="text-4xl" v-else>
         Dove eravamo rimasti?
-      </h2>
+        </h1>
+      </div>
+
+      <RandomQuotes></RandomQuotes>
+
     </div>
   </main>
 </template>

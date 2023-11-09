@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 
@@ -37,27 +37,18 @@ function onApply () {
 
   timerTick()
 }
-function calcPercentage(x, y, fixed = 2) {
-  const percent = ((x - y) / y) * 100;
-
-  if(!isNaN(percent)){
-    return Number(percent.toFixed(fixed));
-  }else{
-    return null;
-  }
-}
 
 function timerTick (event) {
   if (timer.value) {
     clearTimeout(timer.value)
   }
 
+  const endDate = new Date(new Date().toDateString() + ' ' + endTime.value)
+  // endDate.setSeconds(0)
+
   timer.value = setTimeout(() => {
-    const endDate = new Date(new Date().toDateString() + ' ' + endTime.value)
     const diff = endDate - new Date()
-    // const q = Math.abs(startDate.value.getTime());
-    // const d = Math.abs(endDate.getTime());
-    const percentageDiff =  (100  * diff / (endDate - startDate.value )).toFixed(2)
+    const percentageDiff =  (100  * diff / (endDate - startDate.value )).toFixed(1)
 
     emits('time-update', percentageDiff)
 
@@ -76,12 +67,15 @@ function timerTick (event) {
     remainingTime.value = `${minutes}:${seconds}`
 
     timerTick()
-  }, 500)
+  }, 250)
 }
 
-watch(() => endTime.value, () => {
-  console.log('endTime changed', endTime.value)
+onMounted(() => {
+  const now = new Date()
 
+  now.setMinutes(now.getMinutes() + 15)
+
+  endTime.value = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`
 })
 </script>
 
@@ -103,7 +97,7 @@ watch(() => endTime.value, () => {
                            leave-from="opacity-100 translate-y-0 sm:scale-100"
                            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
-                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                   <div
